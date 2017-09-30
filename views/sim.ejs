@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>News Busters</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+<style>
+	body {
+		background-image: url("https://i.ytimg.com/vi/A1LtAYGom9Y/maxresdefault.jpg");
+		background-size: cover;
+	}
+	h1 {
+		padding-top: 10px;
+		padding-bottom: 10px;
+    
+		
+	}
+
+</style>
+</head>
+<body>
+	<h1 style="font-family: 'Anton', sans-serif;"><center>NEWS BUSTERS</center></h1>
+
+	<div class="container">
+		<div class="row row-eq-height">
+
+  			<div class="col-lg-12 col-sm-6">
+ 				 <div class="thumbnail">
+  					<h2 style="font-family: 'Anton', sans-serif;"><center>Accuracy Table</center></h2>
+            <br>
+              <h4><center>Zones: Green (accuracy > 35%)</center></h4>
+              <h4><center>Zones: Blue (35% >= acc > 25%)</center></h4>
+              <h4><center>Zones: Red (accuracy <= 25%)</center></h4>  
+              
+              <br>
+                <h3 style="font-family: 'Anton', sans-serif; color:green;"><center>GREEN ZONE</center></h3> 
+                <h5><center>These are the most reliable news</center></h5>      
+                <table class="table">
+                  <thead>
+                      <tr>
+                        <th>NEWS</th>
+                        <th>ACCURACY</th>
+                      </tr>
+                  </thead>
+                    <tbody>
+                      <% for(var i = 0; i < headlines.length; i++) { %>
+                          <% var old_value = similarityAvg[i]; %>
+                          <% var old_min = 0; %>
+                          <% var old_max = 1; %>
+                          <% var new_min = 0; %>
+                          <% var new_max = 100; %>
+                          <% var new_value = ((old_value - old_min) / (old_max - old_min) ) * (new_max - new_min) +  new_min %>
+                          <% if (new_value > 0.35){ %>
+                        <tr class = "success">
+                          <td><a href='<%= links[i] %>'><%= headlines[i] %></td>
+                          <td><%= new_value %></td>
+                          <% } %>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                </table>
+
+                <br>
+                <h3 style="font-family: 'Anton', sans-serif; color:blue;"><center>BLUE ZONE</center></h3>
+                <h5><center>These are less reliable but unlikely to be fake</center></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>NEWS</th>
+                      <th>ACCURACY</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i = 0; i < headlines.length; i++) { %>
+                         <% var old_value = similarityAvg[i]; %>
+                         <% var old_min = 0; %>
+                         <% var old_max = 1; %>
+                         <% var new_min = 0; %>
+                         <% var new_max = 100; %>
+
+                          <% var new_value = ((old_value - old_min) / (old_max - old_min) ) * (new_max - new_min) +  new_min %>
+                          <% if (new_value <= 35.0 && new_value > 25.0){ %>
+                      <tr class = "info">
+                        
+                        <td><a href='<%= links[i] %>'><%= headlines[i] %></td>
+                        <td><%= new_value %></td>
+                        <% } %>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+                <br>
+
+                <h3 style="font-family: 'Anton', sans-serif; color:red;"><center>RED ZONE</center></h3>
+                <h5><center>These need to be counter checked, could be fake</center></h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>NEWS</th>
+                      <th>ACCURACY</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i = 0; i < headlines.length; i++) { %>
+                          <% var old_value = similarityAvg[i]; %>
+                          <% var old_min = 0; %>
+                          <% var old_max = 1; %>
+                          <% var new_min = 0; %>
+                          <% var new_max = 100; %>
+
+                          <% var new_value = ((old_value - old_min) / (old_max - old_min) ) * (new_max - new_min) +  new_min %>
+                          <% if (new_value <= 25.0){ %>
+                          <tr class = "warning">
+                        
+                            <td><a href='<%= links[i] %>'><%= headlines[i] %></td>
+                          
+                            <td><%= new_value %></td>
+                          <% } %>
+                        </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+  				</div>
+  			</div>
+		</div>
+	</div>
+
+  <div class="container">
+  
+</div>
+
+
+</body>
+</html>
